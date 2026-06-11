@@ -23,6 +23,7 @@ export default function About() {
                 src="/bg/sala-clara.jpg"
                 alt="Imóvel Borges Assessoria"
                 fill
+                quality={90}
                 className="object-cover hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />

@@ -1,27 +1,56 @@
+"use client"
+
 import Image from "next/image"
+import { useScrollReveal } from "@/hooks/useScrollReveal"
 
 export default function About() {
+  const left = useScrollReveal()
+  const right = useScrollReveal()
+
   return (
-    <section id="sobre" className="py-24 bg-white">
+    <section id="sobre" className="py-28 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Image */}
-          <div className="relative aspect-[4/5] overflow-hidden">
-            <Image
-              src="/imoveis/apt-02/foto1.jpg"
-              alt="Borges Assessoria"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            <div className="absolute bottom-6 left-6 bg-[#C4933A] text-white px-6 py-4">
-              <p className="font-display text-2xl">30 Anos</p>
-              <p className="text-sm tracking-wide">de Experiência</p>
+        <div className="grid md:grid-cols-2 gap-20 items-center">
+
+          {/* Image mosaic */}
+          <div
+            ref={left.ref}
+            className={`relative transition-all duration-1000 ${left.visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}
+          >
+            {/* Main image */}
+            <div className="relative aspect-[4/5] overflow-hidden">
+              <Image
+                src="/imoveis/apt-02/foto5.jpg"
+                alt="Imóvel Borges Assessoria"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+
+            {/* Accent image — overlapping bottom-right */}
+            <div className="absolute -bottom-8 -right-6 w-[58%] aspect-[4/3] border-4 border-white shadow-2xl overflow-hidden">
+              <Image
+                src="/imoveis/apt-01/foto3.jpg"
+                alt="Detalhe imóvel"
+                fill
+                className="object-cover"
+                sizes="30vw"
+              />
+            </div>
+
+            {/* Gold badge */}
+            <div className="absolute top-6 -left-4 bg-[#C4933A] text-white px-6 py-5 shadow-lg">
+              <p className="font-display text-2xl leading-none">30 Anos</p>
+              <p className="text-xs tracking-widest uppercase mt-1 text-white/80">de Experiência</p>
             </div>
           </div>
 
           {/* Text */}
-          <div>
+          <div
+            ref={right.ref}
+            className={`transition-all duration-1000 delay-200 ${right.visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}
+          >
             <p className="text-xs font-medium tracking-[0.3em] uppercase text-[#C4933A] mb-4">
               Quem Somos
             </p>
@@ -61,13 +90,13 @@ export default function About() {
             <div className="flex flex-col sm:flex-row gap-4">
               <a
                 href="#imoveis"
-                className="bg-[#C4933A] text-white font-medium tracking-widest uppercase px-8 py-4 hover:bg-[#A67B2E] transition-colors text-center"
+                className="bg-[#C4933A] text-white font-medium tracking-widest uppercase px-8 py-4 hover:bg-[#A67B2E] transition-colors duration-300 text-center"
               >
                 Ver Imóveis
               </a>
               <a
                 href="#servicos"
-                className="border border-[#1a1a1a] text-[#1a1a1a] font-medium tracking-widest uppercase px-8 py-4 hover:bg-[#1a1a1a] hover:text-white transition-colors text-center"
+                className="border border-[#1a1a1a] text-[#1a1a1a] font-medium tracking-widest uppercase px-8 py-4 hover:bg-[#1a1a1a] hover:text-white transition-colors duration-300 text-center"
               >
                 Nossos Serviços
               </a>

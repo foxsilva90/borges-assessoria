@@ -1,3 +1,7 @@
+"use client"
+
+import { useScrollReveal } from "@/hooks/useScrollReveal"
+
 const services = [
   {
     title: "Compra e Venda",
@@ -20,10 +24,18 @@ const services = [
 ]
 
 export default function Services() {
+  const header = useScrollReveal()
+  const cards = [useScrollReveal(), useScrollReveal(), useScrollReveal()]
+
   return (
-    <section id="servicos" className="py-24 bg-[#1C0F07]">
+    <section id="servicos" className="py-28 bg-[#1C0F07]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div
+          ref={header.ref}
+          className={`text-center mb-16 transition-all duration-700 ${
+            header.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
           <p className="text-xs font-medium tracking-[0.3em] uppercase text-[#C4933A] mb-4">
             O que fazemos
           </p>
@@ -35,14 +47,20 @@ export default function Services() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {services.map((service) => (
+        <div className="grid md:grid-cols-3 gap-6">
+          {services.map((service, i) => (
             <div
               key={service.title}
-              className="border border-white/10 p-8 hover:border-[#C4933A] transition-colors group"
+              ref={cards[i].ref}
+              style={{ transitionDelay: `${i * 150}ms` }}
+              className={`border border-white/10 p-8 hover:border-[#C4933A] transition-all duration-500 group cursor-default ${
+                cards[i].visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
             >
-              <div className="text-3xl mb-6">{service.icon}</div>
-              <h3 className="font-display text-2xl text-white mb-4 group-hover:text-[#C4933A] transition-colors">
+              <div className="text-3xl mb-6 group-hover:scale-110 transition-transform duration-300 inline-block">
+                {service.icon}
+              </div>
+              <h3 className="font-display text-2xl text-white mb-4 group-hover:text-[#C4933A] transition-colors duration-300">
                 {service.title}
               </h3>
               <p className="text-white/60 leading-relaxed">{service.description}</p>

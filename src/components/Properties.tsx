@@ -215,8 +215,17 @@ export default function Properties() {
           ))}
         </div>
 
-        {/* Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
+        {/* Mobile: horizontal scroll */}
+        <div className="flex md:hidden overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {filtered.map((property) => (
+            <div key={property.id} className="snap-center shrink-0 w-[83vw]">
+              <PropertyCard property={property} delay={0} />
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: grid */}
+        <div className="hidden md:grid md:grid-cols-2 gap-8">
           {filtered.map((property, i) => (
             <PropertyCard key={property.id} property={property} delay={i * 120} />
           ))}

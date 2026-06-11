@@ -16,17 +16,13 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-[#1C0F07]/50 via-[#1C0F07]/55 to-[#1C0F07]/80" />
 
       <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto">
-        <p className="hero-badge text-sm font-medium tracking-[0.3em] uppercase text-[#C4933A] mb-6">
-          Assessoria Imobiliária e Jurídica — CRECI 40466
+        <p className="hero-badge text-xs font-medium tracking-[0.25em] uppercase text-[#C4933A] mb-4">
+          Jurídica — CRECI 40466
         </p>
-        <h1 className="hero-title font-display text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
-          Encontre o Imóvel
-          <br />
-          dos Seus Sonhos
-          <br />
-          com a Borges
+        <h1 className="hero-title font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-5">
+          Encontre o Imóvel dos Seus Sonhos com a Borges
         </h1>
-        <p className="hero-sub text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="hero-sub text-white/80 text-base md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
           30 anos de experiência em Jacarepaguá. Assessoria jurídica especializada
           para você comprar com total segurança.
         </p>

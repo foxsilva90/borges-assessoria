@@ -35,6 +35,7 @@ export const properties: Property[] = [
     bedrooms: 3,
     suites: 2,
     bathrooms: 2,
+    parking: 1,
     iptu: 1912,
     condominio: 1000,
     description:
@@ -63,6 +64,7 @@ export const properties: Property[] = [
     bedrooms: 3,
     suites: 2,
     bathrooms: 2,
+    parking: 1,
     iptu: 2086,
     condominio: 1000,
     description:
@@ -91,6 +93,7 @@ export const properties: Property[] = [
     bedrooms: 2,
     suites: 1,
     bathrooms: 2,
+    parking: 1,
     iptu: 1238,
     condominio: 700,
     description:
@@ -115,10 +118,11 @@ export const properties: Property[] = [
     type: 'apartamento',
     status: 'venda',
     price: 199000,
-    area: 0,
+    area: 55,
     bedrooms: 2,
     suites: 0,
     bathrooms: 1,
+    parking: 1,
     description:
       'Apartamento térreo totalmente mobiliado com sala, 2 quartos, cozinha, banheiro, área de serviço e pequena varanda.',
     highlights: ['Totalmente mobiliado', 'Andar térreo', 'Área de serviço', 'Varanda'],

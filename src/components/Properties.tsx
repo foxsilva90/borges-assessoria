@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import { Heart, Home, BedDouble, Ruler, Car, ChevronLeft, ChevronRight } from "lucide-react"
 import { properties } from "@/data/properties"
 import { useScrollReveal } from "@/hooks/useScrollReveal"
 
@@ -15,27 +16,46 @@ function formatPrice(value: number) {
 
 function PropertyCard({ property, delay }: { property: typeof properties[0]; delay: number }) {
   const [photoIdx, setPhotoIdx] = useState(0)
+  const [liked, setLiked] = useState(false)
   const { ref, visible } = useScrollReveal()
 
-  const prev = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setPhotoIdx((i) => Math.max(0, i - 1))
-  }
-  const next = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setPhotoIdx((i) => Math.min(property.photos.length - 1, i + 1))
-  }
+  const total = property.photos.length
+
+  const icons = [
+    {
+      icon: <Home size={36} strokeWidth={1.2} />,
+      line1: "Apartamento",
+      line2: null as string | null,
+    },
+    {
+      icon: <BedDouble size={36} strokeWidth={1.2} />,
+      line1: `${property.bedrooms} quartos`,
+      line2: property.suites > 0 ? `sendo ${property.suites} suítes` : null,
+    },
+    {
+      icon: <Ruler size={36} strokeWidth={1.2} />,
+      line1: `${property.area} m²`,
+      line2: "área útil",
+    },
+    property.parking
+      ? {
+          icon: <Car size={36} strokeWidth={1.2} />,
+          line1: `${property.parking} vaga${property.parking > 1 ? "s" : ""}`,
+          line2: "na garagem",
+        }
+      : null,
+  ].filter(Boolean) as { icon: React.ReactNode; line1: string; line2: string | null }[]
 
   return (
     <article
       ref={ref}
       style={{ transitionDelay: `${delay}ms` }}
-      className={`group bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ${
+      className={`bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
     >
       {/* Photo carousel */}
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className="relative aspect-[16/10] overflow-hidden group">
         {property.photos.map((src, i) => (
           <Image
             key={src}
@@ -49,41 +69,46 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
           />
         ))}
 
-        {/* Badge */}
-        <div className="absolute top-4 left-4 z-10">
-          <span className="bg-[#C4933A] text-white text-xs font-medium tracking-widest uppercase px-3 py-1.5">
-            Venda
-          </span>
-        </div>
+        {/* Heart */}
+        <button
+          onClick={() => setLiked((v) => !v)}
+          className="absolute top-4 right-4 z-10 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:scale-110 transition-transform duration-200"
+          aria-label="Favoritar"
+        >
+          <Heart
+            size={18}
+            className={liked ? "fill-red-500 text-red-500" : "text-gray-400"}
+          />
+        </button>
 
-        {/* Arrow controls */}
+        {/* Prev/Next */}
         {photoIdx > 0 && (
           <button
-            onClick={prev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-black/40 text-white w-9 h-9 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-black/60"
+            onClick={() => setPhotoIdx((i) => i - 1)}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
             aria-label="Foto anterior"
           >
-            ‹
+            <ChevronLeft size={18} />
           </button>
         )}
-        {photoIdx < property.photos.length - 1 && (
+        {photoIdx < total - 1 && (
           <button
-            onClick={next}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-black/40 text-white w-9 h-9 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-black/60"
+            onClick={() => setPhotoIdx((i) => i + 1)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
             aria-label="Próxima foto"
           >
-            ›
+            <ChevronRight size={18} />
           </button>
         )}
 
-        {/* Dot nav */}
+        {/* Dots */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
           {property.photos.map((_, i) => (
             <button
               key={i}
-              onClick={(e) => { e.preventDefault(); setPhotoIdx(i) }}
-              className={`w-1.5 h-1.5 rounded-full transition-colors duration-200 ${
-                i === photoIdx ? "bg-white" : "bg-white/40"
+              onClick={() => setPhotoIdx(i)}
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                i === photoIdx ? "bg-white" : "bg-white/50"
               }`}
               aria-label={`Foto ${i + 1}`}
             />
@@ -91,38 +116,52 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
         </div>
       </div>
 
-      {/* Info */}
-      <div className="p-6 border-t border-[#E5E0D8]">
-        <p className="text-xs text-[#C4933A] tracking-[0.2em] uppercase mb-1 font-medium">
-          {property.neighborhood}
+      {/* Price */}
+      <div className="px-6 pt-6 pb-4 text-center">
+        <p className="text-2xl font-bold text-[#1a1a1a] tracking-tight">
+          {formatPrice(property.price)}
         </p>
-        <h3 className="font-display text-xl text-[#1a1a1a] mb-2">
+      </div>
+
+      {/* Divider */}
+      <div className="mx-6 border-t border-[#E5E0D8]" />
+
+      {/* Name + location */}
+      <div className="px-6 py-5 text-center">
+        <p className="text-sm font-bold text-[#C4933A] uppercase tracking-[0.15em] mb-1.5">
           {property.title}
-        </h3>
-        <p className="text-sm text-[#6B6B6B] mb-4 line-clamp-2">
-          {property.description}
         </p>
+        <p className="text-sm text-[#6B6B6B]">
+          {property.address} — {property.neighborhood}
+        </p>
+      </div>
 
-        {/* Specs */}
-        <div className="flex gap-4 text-sm text-[#6B6B6B] mb-5 border-t border-[#E5E0D8] pt-4">
-          <span>{property.bedrooms} quartos</span>
-          {property.suites > 0 && <span>{property.suites} suítes</span>}
-          {property.area > 0 && <span>{property.area} m²</span>}
-        </div>
+      {/* Icons */}
+      <div
+        className="grid border-t border-[#E5E0D8] divide-x divide-[#E5E0D8]"
+        style={{ gridTemplateColumns: `repeat(${icons.length}, 1fr)` }}
+      >
+        {icons.map((item, i) => (
+          <div key={i} className="flex flex-col items-center gap-2 py-5 px-2 text-center">
+            <span className="text-[#6B6B6B]">{item.icon}</span>
+            <span className="text-xs font-semibold text-[#1a1a1a] leading-tight">{item.line1}</span>
+            {item.line2 && (
+              <span className="text-xs text-[#6B6B6B] leading-tight">{item.line2}</span>
+            )}
+          </div>
+        ))}
+      </div>
 
-        <div className="flex items-center justify-between">
-          <p className="font-display text-2xl text-[#C4933A]">
-            {formatPrice(property.price)}
-          </p>
-          <a
-            href={`https://wa.me/5521979136060?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20${encodeURIComponent(property.title)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-[#1C0F07] text-white text-sm font-medium tracking-widest uppercase px-5 py-2.5 hover:bg-[#C4933A] transition-colors duration-300"
-          >
-            Tenho Interesse
-          </a>
-        </div>
+      {/* CTA */}
+      <div className="p-5">
+        <a
+          href={`https://wa.me/5521979136060?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20${encodeURIComponent(property.title)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full text-center bg-[#1C0F07] text-white text-sm font-medium tracking-widest uppercase py-3 rounded-lg hover:bg-[#C4933A] transition-colors duration-300"
+        >
+          Tenho Interesse
+        </a>
       </div>
     </article>
   )
@@ -156,7 +195,7 @@ export default function Properties() {
           </p>
         </div>
 
-        {/* Filter tabs */}
+        {/* Filter */}
         <div className="flex gap-2 justify-center mb-12">
           {[
             { key: "todos", label: "Todos" },

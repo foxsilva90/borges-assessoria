@@ -46,10 +46,6 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero-scroll absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50">
-        <span className="text-xs tracking-widest uppercase">Rolar</span>
-        <div className="w-px h-12 bg-gradient-to-b from-white/40 to-transparent animate-pulse" />
-      </div>
     </section>
   )
 }

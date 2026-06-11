@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section className="relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden">
       <Image
-        src="/imoveis/apt-01/foto5.jpg"
+        src="/bg/sala-escura.jpg"
         alt="Imóvel de luxo em Jacarepaguá"
         fill
         priority

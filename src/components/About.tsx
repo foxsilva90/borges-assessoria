@@ -20,7 +20,7 @@ export default function About() {
             {/* Main image */}
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src="/imoveis/apt-02/foto5.jpg"
+                src="/bg/sala-clara.jpg"
                 alt="Imóvel Borges Assessoria"
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-700"

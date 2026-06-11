@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useScrollReveal } from "@/hooks/useScrollReveal"
 
 const services = [
@@ -28,8 +29,16 @@ export default function Services() {
   const cards = [useScrollReveal(), useScrollReveal(), useScrollReveal()]
 
   return (
-    <section id="servicos" className="py-28 bg-[#1C0F07]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="servicos" className="relative py-28 overflow-hidden">
+      <Image
+        src="/bg/vista-ponte.jpg"
+        alt="Imóvel de luxo"
+        fill
+        className="object-cover"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-[#1C0F07]/88" />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         <div
           ref={header.ref}
           className={`text-center mb-16 transition-all duration-700 ${
@@ -71,3 +80,4 @@ export default function Services() {
     </section>
   )
 }
+

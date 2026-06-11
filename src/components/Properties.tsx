@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { Heart, Home, BedDouble, Ruler, Car, ChevronLeft, ChevronRight } from "lucide-react"
 import { properties } from "@/data/properties"
@@ -170,9 +170,31 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
 export default function Properties() {
   const [filter, setFilter] = useState<"todos" | "apartamento">("todos")
   const header = useScrollReveal()
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const isPausedRef = useRef(false)
 
   const filtered =
     filter === "todos" ? properties : properties.filter((p) => p.type === filter)
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+
+    const tick = () => {
+      if (isPausedRef.current) return
+      const maxScroll = el.scrollWidth - el.clientWidth
+      if (el.scrollLeft >= maxScroll - 10) {
+        el.scrollTo({ left: 0, behavior: "smooth" })
+      } else {
+        const card = el.querySelector<HTMLElement>("div")
+        const cardW = card ? card.offsetWidth + 16 : 300
+        el.scrollBy({ left: cardW, behavior: "smooth" })
+      }
+    }
+
+    const id = setInterval(tick, 3500)
+    return () => clearInterval(id)
+  }, [filtered])
 
   return (
     <section id="imoveis" className="py-28 bg-[#F5F0E8]">
@@ -215,8 +237,15 @@ export default function Properties() {
           ))}
         </div>
 
-        {/* Mobile: horizontal scroll */}
-        <div className="flex md:hidden overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {/* Mobile: horizontal auto-scroll */}
+        <div
+          ref={scrollRef}
+          className="flex md:hidden overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          onTouchStart={() => { isPausedRef.current = true }}
+          onTouchEnd={() => { setTimeout(() => { isPausedRef.current = false }, 1200) }}
+          onMouseDown={() => { isPausedRef.current = true }}
+          onMouseUp={() => { setTimeout(() => { isPausedRef.current = false }, 1200) }}
+        >
           {filtered.map((property) => (
             <div key={property.id} className="snap-center shrink-0 w-[83vw]">
               <PropertyCard property={property} delay={0} />

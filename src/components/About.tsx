@@ -31,7 +31,7 @@ export default function About() {
             {/* Accent image — overlapping bottom-right */}
             <div className="absolute -bottom-8 -right-6 w-[58%] aspect-[4/3] border-4 border-white shadow-2xl overflow-hidden">
               <Image
-                src="/imoveis/apt-01/foto3.jpg"
+                src="/bg/sala-verde.jpg"
                 alt="Detalhe imóvel"
                 fill
                 className="object-cover"

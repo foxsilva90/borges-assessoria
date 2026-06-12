@@ -50,7 +50,7 @@ export default async function PropertyPage({
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-white pt-20">
         {/* Breadcrumb */}
         <div className="bg-[#F5F0E8] border-b border-[#E5E0D8] py-3">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center gap-2 text-sm text-[#6B6B6B]">

@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const isHome = pathname === "/"
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -13,10 +16,12 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  const active = !isHome || scrolled
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white shadow-md" : "bg-transparent"
+        active ? "bg-white shadow-md" : "bg-transparent"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-20">
@@ -24,7 +29,7 @@ export default function Navbar() {
         <Link
           href="/"
           className={`font-display text-xl font-normal tracking-wide transition-colors ${
-            scrolled ? "text-[#1C0F07]" : "text-white"
+            active ? "text-[#1C0F07]" : "text-white"
           }`}
         >
           Borges Assessoria
@@ -42,7 +47,7 @@ export default function Navbar() {
               key={item.href}
               href={item.href}
               className={`text-sm font-medium tracking-wide transition-colors hover:text-[#C4933A] ${
-                scrolled ? "text-[#1a1a1a]" : "text-white/90"
+                active ? "text-[#1a1a1a]" : "text-white/90"
               }`}
             >
               {item.label}
@@ -66,7 +71,7 @@ export default function Navbar() {
             <span
               key={i}
               className={`block w-6 h-0.5 transition-all duration-300 ${
-                scrolled ? "bg-[#1a1a1a]" : "bg-white"
+                active ? "bg-[#1a1a1a]" : "bg-white"
               } ${menuOpen && i === 0 ? "rotate-45 translate-y-2" : ""} ${
                 menuOpen && i === 1 ? "opacity-0" : ""
               } ${menuOpen && i === 2 ? "-rotate-45 -translate-y-2" : ""}`}

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Heart, Home, BedDouble, Ruler, Car, ChevronLeft, ChevronRight } from "lucide-react"
 import { properties } from "@/data/properties"
 import { useScrollReveal } from "@/hooks/useScrollReveal"
@@ -19,6 +20,7 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
   const [photoIdx, setPhotoIdx] = useState(0)
   const [liked, setLiked] = useState(false)
   const { ref, visible } = useScrollReveal()
+  const router = useRouter()
 
   const touchStartX = useRef(0)
   const dragStartX = useRef(0)
@@ -37,6 +39,16 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
       if (diff > 0) goNext()
       else goPrev()
     }
+  }
+
+  const handlePhotoClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (wasDragged.current) { wasDragged.current = false; return }
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const third = rect.width / 3
+    if (x < third) goPrev()
+    else if (x > third * 2) goNext()
+    else router.push(`/imoveis/${property.slug}`)
   }
 
   const icons = [
@@ -74,22 +86,23 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
     >
       {/* Photo carousel */}
       <div
-        className="relative aspect-[16/10] overflow-hidden group select-none cursor-grab active:cursor-grabbing"
+        className="relative aspect-[16/10] overflow-hidden group select-none cursor-pointer"
+        onClick={handlePhotoClick}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
-        onTouchEnd={(e) => handleSwipeEnd(touchStartX.current, e.changedTouches[0].clientX)}
+        onTouchEnd={(e) => { handleSwipeEnd(touchStartX.current, e.changedTouches[0].clientX) }}
         onMouseDown={(e) => { e.preventDefault(); dragStartX.current = e.clientX; isDragging.current = true }}
         onMouseMove={(e) => { if (isDragging.current && Math.abs(dragStartX.current - e.clientX) > 8) wasDragged.current = true }}
         onMouseUp={(e) => { if (isDragging.current) { handleSwipeEnd(dragStartX.current, e.clientX); isDragging.current = false } }}
         onMouseLeave={() => { isDragging.current = false }}
       >
-        {/* Link overlay — behind interactive elements (z-[1]), blocked on drag */}
-        <Link
-          href={`/imoveis/${property.slug}`}
-          className="absolute inset-0 z-[1]"
-          tabIndex={-1}
-          aria-hidden
-          onClick={(e) => { if (wasDragged.current) { e.preventDefault(); wasDragged.current = false } }}
-        />
+        {/* Left zone hint */}
+        <div className="absolute left-0 top-0 bottom-0 w-1/3 z-[2] flex items-center justify-start pl-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          {photoIdx > 0 && <ChevronLeft size={20} className="text-white/60 drop-shadow" />}
+        </div>
+        {/* Right zone hint */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 z-[2] flex items-center justify-end pr-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          {photoIdx < total - 1 && <ChevronRight size={20} className="text-white/60 drop-shadow" />}
+        </div>
 
         {property.photos.map((src, i) => (
           <Image
@@ -115,26 +128,6 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
             className={liked ? "fill-red-500 text-red-500" : "text-gray-400"}
           />
         </button>
-
-        {/* Prev/Next */}
-        {photoIdx > 0 && (
-          <button
-            onClick={() => setPhotoIdx((i) => i - 1)}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
-            aria-label="Foto anterior"
-          >
-            <ChevronLeft size={18} />
-          </button>
-        )}
-        {photoIdx < total - 1 && (
-          <button
-            onClick={() => setPhotoIdx((i) => i + 1)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-black/40 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70"
-            aria-label="Próxima foto"
-          >
-            <ChevronRight size={18} />
-          </button>
-        )}
 
         {/* Dots */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">

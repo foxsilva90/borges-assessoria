@@ -20,7 +20,24 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
   const [liked, setLiked] = useState(false)
   const { ref, visible } = useScrollReveal()
 
+  const touchStartX = useRef(0)
+  const dragStartX = useRef(0)
+  const isDragging = useRef(false)
+  const wasDragged = useRef(false)
+
   const total = property.photos.length
+
+  const goNext = () => setPhotoIdx((i) => Math.min(total - 1, i + 1))
+  const goPrev = () => setPhotoIdx((i) => Math.max(0, i - 1))
+
+  const handleSwipeEnd = (startX: number, endX: number) => {
+    const diff = startX - endX
+    if (Math.abs(diff) > 40) {
+      wasDragged.current = true
+      if (diff > 0) goNext()
+      else goPrev()
+    }
+  }
 
   const icons = [
     {
@@ -56,9 +73,23 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
       }`}
     >
       {/* Photo carousel */}
-      <div className="relative aspect-[16/10] overflow-hidden group">
-        {/* Link overlay — behind buttons (z-[1]) */}
-        <Link href={`/imoveis/${property.slug}`} className="absolute inset-0 z-[1]" tabIndex={-1} aria-hidden />
+      <div
+        className="relative aspect-[16/10] overflow-hidden group select-none cursor-grab active:cursor-grabbing"
+        onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
+        onTouchEnd={(e) => handleSwipeEnd(touchStartX.current, e.changedTouches[0].clientX)}
+        onMouseDown={(e) => { e.preventDefault(); dragStartX.current = e.clientX; isDragging.current = true }}
+        onMouseMove={(e) => { if (isDragging.current && Math.abs(dragStartX.current - e.clientX) > 8) wasDragged.current = true }}
+        onMouseUp={(e) => { if (isDragging.current) { handleSwipeEnd(dragStartX.current, e.clientX); isDragging.current = false } }}
+        onMouseLeave={() => { isDragging.current = false }}
+      >
+        {/* Link overlay — behind interactive elements (z-[1]), blocked on drag */}
+        <Link
+          href={`/imoveis/${property.slug}`}
+          className="absolute inset-0 z-[1]"
+          tabIndex={-1}
+          aria-hidden
+          onClick={(e) => { if (wasDragged.current) { e.preventDefault(); wasDragged.current = false } }}
+        />
 
         {property.photos.map((src, i) => (
           <Image

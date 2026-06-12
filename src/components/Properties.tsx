@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Heart, Home, BedDouble, Ruler, Car, ChevronLeft, ChevronRight } from "lucide-react"
 import { properties } from "@/data/properties"
 import { useScrollReveal } from "@/hooks/useScrollReveal"
@@ -56,6 +57,9 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
     >
       {/* Photo carousel */}
       <div className="relative aspect-[16/10] overflow-hidden group">
+        {/* Link overlay — behind buttons (z-[1]) */}
+        <Link href={`/imoveis/${property.slug}`} className="absolute inset-0 z-[1]" tabIndex={-1} aria-hidden />
+
         {property.photos.map((src, i) => (
           <Image
             key={src}
@@ -116,41 +120,40 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
         </div>
       </div>
 
-      {/* Price */}
-      <div className="px-6 pt-6 pb-4 text-center">
-        <p className="text-2xl font-bold text-[#1a1a1a] tracking-tight">
-          {formatPrice(property.price)}
-        </p>
-      </div>
+      {/* Price + name + icons — clickable link to detail page */}
+      <Link href={`/imoveis/${property.slug}`} className="block hover:bg-[#FDFAF6] transition-colors duration-200">
+        <div className="px-6 pt-6 pb-4 text-center">
+          <p className="text-2xl font-bold text-[#1a1a1a] tracking-tight">
+            {formatPrice(property.price)}
+          </p>
+        </div>
 
-      {/* Divider */}
-      <div className="mx-6 border-t border-[#E5E0D8]" />
+        <div className="mx-6 border-t border-[#E5E0D8]" />
 
-      {/* Name + location */}
-      <div className="px-6 py-5 text-center">
-        <p className="text-sm font-bold text-[#C4933A] uppercase tracking-[0.15em] mb-1.5">
-          {property.title}
-        </p>
-        <p className="text-sm text-[#6B6B6B]">
-          {property.address} — {property.neighborhood}
-        </p>
-      </div>
+        <div className="px-6 py-5 text-center">
+          <p className="text-sm font-bold text-[#C4933A] uppercase tracking-[0.15em] mb-1.5">
+            {property.title}
+          </p>
+          <p className="text-sm text-[#6B6B6B]">
+            {property.address} — {property.neighborhood}
+          </p>
+        </div>
 
-      {/* Icons */}
-      <div
-        className="grid border-t border-[#E5E0D8] divide-x divide-[#E5E0D8]"
-        style={{ gridTemplateColumns: `repeat(${icons.length}, 1fr)` }}
-      >
-        {icons.map((item, i) => (
-          <div key={i} className="flex flex-col items-center gap-2 py-5 px-2 text-center">
-            <span className="text-[#6B6B6B]">{item.icon}</span>
-            <span className="text-xs font-semibold text-[#1a1a1a] leading-tight">{item.line1}</span>
-            {item.line2 && (
-              <span className="text-xs text-[#6B6B6B] leading-tight">{item.line2}</span>
-            )}
-          </div>
-        ))}
-      </div>
+        <div
+          className="grid border-t border-[#E5E0D8] divide-x divide-[#E5E0D8]"
+          style={{ gridTemplateColumns: `repeat(${icons.length}, 1fr)` }}
+        >
+          {icons.map((item, i) => (
+            <div key={i} className="flex flex-col items-center gap-2 py-5 px-2 text-center">
+              <span className="text-[#6B6B6B]">{item.icon}</span>
+              <span className="text-xs font-semibold text-[#1a1a1a] leading-tight">{item.line1}</span>
+              {item.line2 && (
+                <span className="text-xs text-[#6B6B6B] leading-tight">{item.line2}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </Link>
 
       {/* CTA */}
       <div className="p-5">

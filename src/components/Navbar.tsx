@@ -38,14 +38,14 @@ export default function Navbar() {
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {[
-            { label: "Imóveis", href: "#imoveis" },
-            { label: "Sobre Nós", href: "#sobre" },
-            { label: "Serviços", href: "#servicos" },
-            { label: "Contato", href: "#contato" },
+            { label: "Imóveis", anchor: "imoveis" },
+            { label: "Sobre Nós", anchor: "sobre" },
+            { label: "Serviços", anchor: "servicos" },
+            { label: "Contato", anchor: "contato" },
           ].map((item) => (
             <a
-              key={item.href}
-              href={item.href}
+              key={item.anchor}
+              href={isHome ? `#${item.anchor}` : `/#${item.anchor}`}
               className={`text-sm font-medium tracking-wide transition-colors hover:text-[#C4933A] ${
                 active ? "text-[#1a1a1a]" : "text-white/90"
               }`}
@@ -54,7 +54,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="#contato"
+            href={isHome ? "#contato" : "/#contato"}
             className="bg-[#C4933A] text-white text-sm font-medium tracking-widest uppercase px-6 py-2.5 transition-colors hover:bg-[#A67B2E]"
           >
             Fale Conosco
@@ -84,14 +84,14 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-[#E5E0D8] px-6 py-6 flex flex-col gap-5">
           {[
-            { label: "Imóveis", href: "#imoveis" },
-            { label: "Sobre Nós", href: "#sobre" },
-            { label: "Serviços", href: "#servicos" },
-            { label: "Contato", href: "#contato" },
+            { label: "Imóveis", anchor: "imoveis" },
+            { label: "Sobre Nós", anchor: "sobre" },
+            { label: "Serviços", anchor: "servicos" },
+            { label: "Contato", anchor: "contato" },
           ].map((item) => (
             <a
-              key={item.href}
-              href={item.href}
+              key={item.anchor}
+              href={isHome ? `#${item.anchor}` : `/#${item.anchor}`}
               onClick={() => setMenuOpen(false)}
               className="text-[#1a1a1a] font-medium tracking-wide hover:text-[#C4933A] transition-colors"
             >
@@ -99,7 +99,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="#contato"
+            href={isHome ? "#contato" : "/#contato"}
             onClick={() => setMenuOpen(false)}
             className="bg-[#C4933A] text-white text-center font-medium tracking-widest uppercase px-6 py-3 hover:bg-[#A67B2E] transition-colors"
           >

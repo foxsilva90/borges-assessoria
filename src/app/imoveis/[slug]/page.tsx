@@ -6,6 +6,7 @@ import { properties } from "@/data/properties"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import PropertyDetailGallery from "@/components/PropertyDetailGallery"
+import PixelViewContent from "@/components/PixelViewContent"
 
 export function generateStaticParams() {
   return properties.map((p) => ({ slug: p.slug }))
@@ -50,6 +51,11 @@ export default async function PropertyPage({
   return (
     <>
       <Navbar />
+      <PixelViewContent
+        contentId={property.slug}
+        contentName={property.title}
+        value={property.price}
+      />
       <main className="min-h-screen bg-white pt-20">
         {/* Breadcrumb */}
         <div className="bg-[#F5F0E8] border-b border-[#E5E0D8] py-3">

@@ -75,7 +75,17 @@ export default function Footer() {
 
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/30">
           <p>© {year} Borges Assessoria Imobiliária e Jurídica. Todos os direitos reservados.</p>
-          <p>CRECI 40466 · Jacarepaguá, Rio de Janeiro</p>
+          <div className="flex items-center gap-4">
+            <a href="/politica-de-privacidade" className="hover:text-white/60 transition-colors">
+              Política de Privacidade
+            </a>
+            <span>·</span>
+            <a href="/termos-de-servico" className="hover:text-white/60 transition-colors">
+              Termos de Serviço
+            </a>
+            <span>·</span>
+            <span>CRECI 40466 · Jacarepaguá, Rio de Janeiro</span>
+          </div>
         </div>
       </div>
     </footer>

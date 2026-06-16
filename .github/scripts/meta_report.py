@@ -149,6 +149,43 @@ def build_html(ads, campaign, yesterday):
     <p style="margin:12px 0 0;font-size:11px;color:#bbb">⭐ Linha destacada = melhor desempenho do dia</p>
   </td></tr>
 
+  <!-- Glossário -->
+  <tr><td style="padding:24px 32px;background:#f9f6f1;border-top:2px solid #f0ebe0">
+    <p style="margin:0 0 16px;font-size:13px;font-weight:700;color:#1C0F07;text-transform:uppercase;letter-spacing:1px">O que significam esses dados?</p>
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="padding:8px 12px 8px 0;vertical-align:top;width:50%">
+          <p style="margin:0;font-size:13px"><span style="color:#C4933A;font-weight:700">Gasto</span><br>
+          <span style="color:#555;font-size:12px;line-height:1.5">Quanto foi gasto do orçamento diário (R$25,00). Idealmente deve ser consumido ao longo do dia todo.</span></p>
+        </td>
+        <td style="padding:8px 0 8px 12px;vertical-align:top;width:50%">
+          <p style="margin:0;font-size:13px"><span style="color:#C4933A;font-weight:700">Cliques</span><br>
+          <span style="color:#555;font-size:12px;line-height:1.5">Quantas pessoas clicaram no anúncio e foram para o site. Quanto mais, melhor.</span></p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px 8px 0;vertical-align:top">
+          <p style="margin:0;font-size:13px"><span style="color:#C4933A;font-weight:700">Impressões</span><br>
+          <span style="color:#555;font-size:12px;line-height:1.5">Quantas vezes o anúncio foi exibido no Facebook/Instagram. Uma mesma pessoa pode ver várias vezes.</span></p>
+        </td>
+        <td style="padding:8px 0 8px 12px;vertical-align:top">
+          <p style="margin:0;font-size:13px"><span style="color:#C4933A;font-weight:700">Alcance</span><br>
+          <span style="color:#555;font-size:12px;line-height:1.5">Quantas pessoas diferentes viram o anúncio. Diferente de impressões: se a mesma pessoa viu 3 vezes, conta 1 no alcance e 3 nas impressões.</span></p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px 8px 0;vertical-align:top">
+          <p style="margin:0;font-size:13px"><span style="color:#C4933A;font-weight:700">CPC — Custo por Clique</span><br>
+          <span style="color:#555;font-size:12px;line-height:1.5">Quanto custou cada clique no anúncio. Quanto menor, mais eficiente. Para imóveis, abaixo de R$1,00 é excelente.</span></p>
+        </td>
+        <td style="padding:8px 0 8px 12px;vertical-align:top">
+          <p style="margin:0;font-size:13px"><span style="color:#C4933A;font-weight:700">CTR — Taxa de Cliques</span><br>
+          <span style="color:#555;font-size:12px;line-height:1.5">% das pessoas que viram o anúncio e clicaram. Ex: CTR de 10% = a cada 10 pessoas que viram, 1 clicou. Acima de 2% já é considerado bom.</span></p>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
   <!-- Footer -->
   <tr><td style="background:#1C0F07;padding:20px 32px;text-align:center">
     <p style="margin:0;color:rgba(255,255,255,0.4);font-size:11px">

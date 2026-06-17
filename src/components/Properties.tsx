@@ -88,8 +88,9 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
       <div
         className="relative aspect-[16/10] overflow-hidden group select-none cursor-pointer"
         onClick={handlePhotoClick}
-        onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX }}
-        onTouchEnd={(e) => { handleSwipeEnd(touchStartX.current, e.changedTouches[0].clientX) }}
+        onTouchStart={(e) => { e.stopPropagation(); touchStartX.current = e.touches[0].clientX }}
+        onTouchMove={(e) => { e.stopPropagation() }}
+        onTouchEnd={(e) => { e.stopPropagation(); handleSwipeEnd(touchStartX.current, e.changedTouches[0].clientX) }}
         onMouseDown={(e) => { e.preventDefault(); dragStartX.current = e.clientX; isDragging.current = true }}
         onMouseMove={(e) => { if (isDragging.current && Math.abs(dragStartX.current - e.clientX) > 8) wasDragged.current = true }}
         onMouseUp={(e) => { if (isDragging.current) { handleSwipeEnd(dragStartX.current, e.clientX); isDragging.current = false } }}

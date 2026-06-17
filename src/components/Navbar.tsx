@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 
 export default function Navbar() {
@@ -26,13 +27,21 @@ export default function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-20">
         {/* Logo */}
-        <Link
-          href="/"
-          className={`font-display text-xl font-normal tracking-wide transition-colors ${
-            active ? "text-[#1C0F07]" : "text-white"
-          }`}
-        >
-          Borges Assessoria
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src="/logo-fb.jpg"
+            alt="Borges Assessoria"
+            width={40}
+            height={40}
+            className="rounded-full object-cover"
+          />
+          <span
+            className={`font-display text-xl font-normal tracking-wide transition-colors ${
+              active ? "text-[#1C0F07]" : "text-white"
+            }`}
+          >
+            Borges Assessoria
+          </span>
         </Link>
 
         {/* Desktop links */}

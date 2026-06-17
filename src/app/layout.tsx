@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { DM_Serif_Display } from "next/font/google"
 import Script from "next/script"
+import WhatsAppButton from "@/components/WhatsAppButton"
 import "./globals.css"
 
 const META_PIXEL_ID = "993889716691067"
@@ -65,7 +66,10 @@ export default function RootLayout({
           />
         </noscript>
       </head>
-      <body className="min-h-screen flex flex-col antialiased">{children}</body>
+      <body className="min-h-screen flex flex-col antialiased">
+        {children}
+        <WhatsAppButton />
+      </body>
     </html>
   )
 }

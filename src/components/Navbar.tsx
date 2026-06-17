@@ -29,7 +29,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <Image
-            src="/logo-fb.jpg"
+            src="/logo-circle.png"
             alt="Borges Assessoria"
             width={40}
             height={40}

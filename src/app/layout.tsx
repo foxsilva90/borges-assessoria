@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     "30 anos de experiência em compra, venda e legalização de imóveis em Jacarepaguá e região. CRECI 40466. Assessoria jurídica especializada.",
   keywords: "imobiliária Jacarepaguá, apartamentos Taquara, imóveis Jacarepaguá, assessoria imobiliária RJ",
   icons: {
-    icon: "/logo-fb.jpg",
-    apple: "/logo-fb.jpg",
+    icon: "/logo-circle.png",
+    apple: "/logo-circle.png",
   },
   openGraph: {
     title: "Borges Assessoria Imobiliária",

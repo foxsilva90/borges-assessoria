@@ -186,6 +186,7 @@ function PropertyCard({ property, delay }: { property: typeof properties[0]; del
           href={`https://wa.me/5521979136060?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20${encodeURIComponent(property.title)}`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => { if (typeof window !== "undefined" && (window as any).fbq) (window as any).fbq("track", "Contact") }}
           className="block w-full text-center bg-[#1C0F07] text-white text-sm font-medium tracking-widest uppercase py-3 rounded-lg hover:bg-[#C4933A] transition-colors duration-300"
         >
           Tenho Interesse

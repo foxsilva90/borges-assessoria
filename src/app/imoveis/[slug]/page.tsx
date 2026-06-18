@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import PropertyDetailGallery from "@/components/PropertyDetailGallery"
 import PixelViewContent from "@/components/PixelViewContent"
+import WhatsAppCTA from "@/components/WhatsAppCTA"
 
 export function generateStaticParams() {
   return properties.map((p) => ({ slug: p.slug }))
@@ -183,14 +184,12 @@ export default async function PropertyPage({
                   </div>
                 )}
 
-                <a
+                <WhatsAppCTA
                   href={`https://wa.me/5521979136060?text=Olá%2C%20tenho%20interesse%20no%20imóvel%3A%20${encodeURIComponent(property.title)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 w-full text-center bg-[#C4933A] text-white font-medium tracking-widest uppercase py-4 rounded-lg hover:bg-[#A67B2E] transition-colors duration-300 mb-3"
                 >
                   Tenho Interesse
-                </a>
+                </WhatsAppCTA>
                 <a
                   href="tel:+5521966684167"
                   className="flex items-center justify-center gap-2 w-full text-center border border-[#1a1a1a] text-[#1a1a1a] font-medium tracking-widest uppercase py-4 rounded-lg hover:bg-[#1a1a1a] hover:text-white transition-colors duration-300"

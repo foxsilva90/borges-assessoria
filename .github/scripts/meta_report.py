@@ -12,7 +12,7 @@ CAMPAIGN_ID = "120252337530160110"
 def get_insights():
     url = f"https://graph.facebook.com/v20.0/{AD_ACCOUNT}/insights"
     params = {
-        "fields": "ad_name,spend,clicks,impressions,cpc,ctr,reach",
+        "fields": "ad_name,spend,clicks,impressions,cpc,ctr,reach,actions",
         "date_preset": "yesterday",
         "level": "ad",
         "filtering": f'[{{"field":"campaign.id","operator":"EQUAL","value":"{CAMPAIGN_ID}"}}]',
@@ -21,6 +21,14 @@ def get_insights():
     r = requests.get(url, params=params)
     r.raise_for_status()
     return r.json().get("data", [])
+
+def get_action(actions, action_type):
+    if not actions:
+        return 0
+    for a in actions:
+        if a.get("action_type") == action_type:
+            return int(float(a.get("value", 0)))
+    return 0
 
 def get_campaign_status():
     url = f"https://graph.facebook.com/v20.0/{CAMPAIGN_ID}"
@@ -46,6 +54,8 @@ def build_html(ads, campaign, yesterday):
     total_clicks = sum(int(a.get("clicks", 0)) for a in ads)
     total_impressions = sum(int(a.get("impressions", 0)) for a in ads)
     total_reach = sum(int(a.get("reach", 0)) for a in ads)
+    total_site_visits = sum(get_action(a.get("actions"), "landing_page_view") for a in ads)
+    total_whatsapp = sum(get_action(a.get("actions"), "offsite_conversion.fb_pixel_contact") for a in ads)
 
     status_map = {
         "ACTIVE": ("🟢", "Ativa"),
@@ -99,32 +109,66 @@ def build_html(ads, campaign, yesterday):
     <p style="margin:0;color:#fff;font-size:13px">Status da campanha: <strong>{status_icon} {status_label}</strong></p>
   </td></tr>
 
-  <!-- Summary cards -->
-  <tr><td style="padding:24px 32px;background:#fff">
+  <!-- Funil de conversão -->
+  <tr><td style="padding:0 32px 24px;background:#fff">
+    <p style="margin:0 0 12px;font-size:11px;font-weight:700;color:#1C0F07;text-transform:uppercase;letter-spacing:1px">Funil de ontem</p>
     <table width="100%" cellpadding="0" cellspacing="0">
       <tr>
-        <td width="25%" style="padding-right:12px">
+        <td style="text-align:center;padding:0 4px">
+          <div style="background:#f5f0e8;padding:14px 8px;border-radius:4px">
+            <p style="margin:0;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px">Alcance</p>
+            <p style="margin:4px 0 0;font-size:20px;font-weight:700;color:#1C0F07">{total_reach:,}</p>
+            <p style="margin:2px 0 0;font-size:10px;color:#aaa">viram o anúncio</p>
+          </div>
+        </td>
+        <td style="text-align:center;font-size:18px;color:#C4933A;width:20px">›</td>
+        <td style="text-align:center;padding:0 4px">
+          <div style="background:#f5f0e8;padding:14px 8px;border-radius:4px">
+            <p style="margin:0;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px">Cliques</p>
+            <p style="margin:4px 0 0;font-size:20px;font-weight:700;color:#1C0F07">{total_clicks}</p>
+            <p style="margin:2px 0 0;font-size:10px;color:#aaa">clicaram no anúncio</p>
+          </div>
+        </td>
+        <td style="text-align:center;font-size:18px;color:#C4933A;width:20px">›</td>
+        <td style="text-align:center;padding:0 4px">
+          <div style="background:#e8f0e8;padding:14px 8px;border-radius:4px;border-left:3px solid #4CAF50">
+            <p style="margin:0;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px">Visitaram site</p>
+            <p style="margin:4px 0 0;font-size:20px;font-weight:700;color:#2e7d32">{total_site_visits}</p>
+            <p style="margin:2px 0 0;font-size:10px;color:#aaa">acessaram o site</p>
+          </div>
+        </td>
+        <td style="text-align:center;font-size:18px;color:#C4933A;width:20px">›</td>
+        <td style="text-align:center;padding:0 4px">
+          <div style="background:#e8f5e9;padding:14px 8px;border-radius:4px;border-left:3px solid #25D366">
+            <p style="margin:0;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px">WhatsApp</p>
+            <p style="margin:4px 0 0;font-size:20px;font-weight:700;color:#1b5e20">{total_whatsapp}</p>
+            <p style="margin:2px 0 0;font-size:10px;color:#aaa">clicaram pro chat</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- Gasto e CPC resumo -->
+  <tr><td style="padding:0 32px 24px;background:#fff">
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" style="padding-right:12px">
           <div style="background:#f5f0e8;padding:16px;border-left:3px solid #C4933A">
             <p style="margin:0;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px">Gasto</p>
             <p style="margin:6px 0 0;font-size:22px;font-weight:700;color:#1C0F07">R$ {total_spend:.2f}</p>
           </div>
         </td>
-        <td width="25%" style="padding-right:12px">
-          <div style="background:#f5f0e8;padding:16px;border-left:3px solid #C4933A">
-            <p style="margin:0;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px">Cliques</p>
-            <p style="margin:6px 0 0;font-size:22px;font-weight:700;color:#1C0F07">{total_clicks}</p>
-          </div>
-        </td>
-        <td width="25%" style="padding-right:12px">
+        <td width="33%" style="padding-right:12px">
           <div style="background:#f5f0e8;padding:16px;border-left:3px solid #C4933A">
             <p style="margin:0;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px">Impressões</p>
             <p style="margin:6px 0 0;font-size:22px;font-weight:700;color:#1C0F07">{total_impressions:,}</p>
           </div>
         </td>
-        <td width="25%">
+        <td width="33%">
           <div style="background:#f5f0e8;padding:16px;border-left:3px solid #C4933A">
-            <p style="margin:0;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px">Alcance</p>
-            <p style="margin:6px 0 0;font-size:22px;font-weight:700;color:#1C0F07">{total_reach:,}</p>
+            <p style="margin:0;font-size:10px;color:#999;text-transform:uppercase;letter-spacing:1px">Custo por visita</p>
+            <p style="margin:6px 0 0;font-size:22px;font-weight:700;color:#1C0F07">{"R$ %.2f" % (total_spend / total_site_visits) if total_site_visits else "—"}</p>
           </div>
         </td>
       </tr>

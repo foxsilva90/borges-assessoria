@@ -214,6 +214,23 @@ export default async function PropertyPage({
         </div>
       </main>
       <Footer />
+
+      {/* Mobile sticky CTA bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#E5E0D8] px-4 py-3 flex gap-3 shadow-[0_-4px_16px_rgba(0,0,0,0.08)]">
+        <WhatsAppCTA
+          href={`https://wa.me/5521979136060?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20im%C3%B3vel%3A%20${encodeURIComponent(property.title)}`}
+          className="flex-1 flex items-center justify-center gap-2 bg-[#C4933A] text-white font-medium tracking-widest uppercase py-3 rounded-lg text-sm"
+        >
+          Tenho Interesse
+        </WhatsAppCTA>
+        <a
+          href="tel:+5521966684167"
+          className="flex items-center justify-center px-4 border border-[#1a1a1a] text-[#1a1a1a] rounded-lg"
+          aria-label="Ligar"
+        >
+          <Phone size={20} />
+        </a>
+      </div>
     </>
   )
 }

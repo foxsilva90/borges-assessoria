@@ -14,7 +14,7 @@ export default function WhatsAppButton() {
       rel="noopener noreferrer"
       onClick={handleClick}
       aria-label="Fale conosco pelo WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-full shadow-xl transition-transform hover:scale-105 active:scale-95"
+      className="hidden md:flex fixed bottom-6 right-6 z-50 items-center gap-3 rounded-full shadow-xl transition-transform hover:scale-105 active:scale-95"
       style={{ backgroundColor: "#25D366" }}
     >
       {/* Icon */}

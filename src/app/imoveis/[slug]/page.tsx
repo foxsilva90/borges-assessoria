@@ -225,10 +225,10 @@ export default async function PropertyPage({
         </WhatsAppCTA>
         <a
           href="tel:+5521966684167"
-          className="flex items-center justify-center px-4 border border-[#1a1a1a] text-[#1a1a1a] rounded-lg"
-          aria-label="Ligar"
+          className="flex items-center justify-center gap-2 px-4 border border-[#1a1a1a] text-[#1a1a1a] rounded-lg text-sm font-medium"
         >
-          <Phone size={20} />
+          <Phone size={16} />
+          Ligar
         </a>
       </div>
     </>

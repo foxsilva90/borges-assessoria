@@ -47,14 +47,24 @@ export default function Contact() {
                 <p className="text-xs font-medium tracking-[0.2em] uppercase text-[#C4933A] mb-2">
                   WhatsApp
                 </p>
-                <a
-                  href="https://wa.me/5521979136060"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/80 hover:text-[#C4933A] transition-colors"
-                >
-                  (21) 97913-6060
-                </a>
+                <div className="flex flex-col gap-1">
+                  <a
+                    href="https://wa.me/5521979136060"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/80 hover:text-[#C4933A] transition-colors"
+                  >
+                    (21) 97913-6060
+                  </a>
+                  <a
+                    href="https://wa.me/5521966684167"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/80 hover:text-[#C4933A] transition-colors"
+                  >
+                    (21) 96668-4167
+                  </a>
+                </div>
               </div>
               <div className="border-t border-white/10 pt-6">
                 <p className="text-xs font-medium tracking-[0.2em] uppercase text-[#C4933A] mb-2">
@@ -131,7 +141,15 @@ export default function Contact() {
                   Enviar via WhatsApp
                 </button>
                 <p className="text-xs text-[#6B6B6B] text-center">
-                  Ou ligue: (21) 96668-4167
+                  Ou fale pelo WhatsApp:{" "}
+                  <a
+                    href="https://wa.me/5521966684167"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#C4933A] hover:underline"
+                  >
+                    (21) 96668-4167
+                  </a>
                 </p>
               </form>
             )}

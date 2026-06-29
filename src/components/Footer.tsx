@@ -59,7 +59,9 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="tel:+552196668-4167"
+                  href="https://wa.me/5521966684167"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-[#C4933A] transition-colors"
                 >
                   (21) 96668-4167
